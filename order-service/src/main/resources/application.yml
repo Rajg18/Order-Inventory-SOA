@@ -1,0 +1,58 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/order_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        retry:
+          enabled: true
+          initial-interval: 1000ms
+          max-attempts: 3
+          multiplier: 2.0
+
+smartstock:
+  exchange: smartstock.exchange
+  queues:
+    order-created: order.created.queue
+    order-cancelled: order.cancelled.queue
+    inventory-reserved: inventory.reserved.queue
+    inventory-rejected: inventory.rejected.queue
+    inventory-released: inventory.released.queue
+    dead-letter: smartstock.deadletter.queue
+  routing-keys:
+    order-created: order.created
+    order-cancelled: order.cancelled
+    inventory-reserved: inventory.reserved
+    inventory-rejected: inventory.rejected
+    inventory-released: inventory.released
+    dead-letter: smartstock.deadletter
+
+inventory-service:
+  url: ${INVENTORY_SERVICE_URL:http://localhost:8082}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

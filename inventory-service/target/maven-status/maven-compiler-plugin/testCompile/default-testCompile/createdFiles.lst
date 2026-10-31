@@ -1,0 +1,4 @@
+com\smartstock\inventoryservice\ProductControllerTest.class
+com\smartstock\inventoryservice\ConcurrencyAndIdempotencyTest.class
+com\smartstock\inventoryservice\InventoryReservationWorkflowTest.class
+com\smartstock\inventoryservice\InventoryEventPublisherTest.class

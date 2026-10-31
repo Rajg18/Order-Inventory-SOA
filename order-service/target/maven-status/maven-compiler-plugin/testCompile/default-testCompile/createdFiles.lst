@@ -1,0 +1,4 @@
+com\smartstock\orderservice\OrderControllerTest.class
+com\smartstock\orderservice\InventoryClientContractTest.class
+com\smartstock\orderservice\OrderWorkflowTest.class
+com\smartstock\orderservice\OrderEventPublisherTest.class
